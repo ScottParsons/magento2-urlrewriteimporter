@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/*
+ * Turiknox_Urlrewriteimporter
+
+ * @category   Turiknox
+ * @package    Turiknox_Urlrewriteimporter
+ * @copyright  Copyright (c) 2017 Turiknox
+ * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
+ * @version    1.0.0
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/App/etc/routes.xsd">
+    <router id="admin">
+        <route id="urlrewriteimporter" frontName="urlrewriteimporter">
+            <module name="Turiknox_Urlrewriteimporter" />
+        </route>
+    </router>
+</config>
