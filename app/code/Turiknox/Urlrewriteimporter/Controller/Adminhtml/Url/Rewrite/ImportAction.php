@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\Urlrewriteimporter\Controller\Adminhtml\Urlrewrite;
 /*
  * Turiknox_Urlrewriteimporter
 
@@ -9,59 +8,61 @@ namespace Turiknox\Urlrewriteimporter\Controller\Adminhtml\Urlrewrite;
  * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Urlrewriteimporter\Controller\Adminhtml\Url\Rewrite;
+
 use Magento\Backend\App\Action;
 use Magento\UrlRewrite\Model\UrlRewriteFactory;
 
-class Save extends Action
+class ImportAction extends Action
 {
     /**
      * File name
      * @var
      */
-    protected $_filename;
+    protected $filename;
 
     /**
      * Total number of records
      * @var
      */
-    protected $_total = 0;
+    protected $total = 0;
 
     /**
      * Total numer of records imported
      * @var int
      */
-    protected $_totalImported = 0;
+    protected $totalImported = 0;
 
     /**
      * Skip headers in import
      * @var
      */
-    protected $_skipHeaders = false;
+    protected $skipHeaders = false;
 
     /**
      * @var UrlRewriteFactory
      */
-    protected $_urlRewriteFactory;
+    protected $urlRewriteFactory;
 
     /**
      * Save constructor.
      * @param Action\Context $context
-     * @param UrlRewriteFactory $urlrewriteFactory
+     * @param UrlRewriteFactory $urlRewriteFactory
      */
     public function __construct(
         Action\Context $context,
-        UrlRewriteFactory $urlrewriteFactory
-    )
-    {
+        UrlRewriteFactory $urlRewriteFactory
+    ) {
         parent::__construct($context);
-        $this->_urlRewriteFactory = $urlrewriteFactory;
+        $this->urlRewriteFactory = $urlRewriteFactory;
     }
 
     /**
      * @param $type
      * @return bool
      */
-    private function _allowedType($type) {
+    private function allowedType($type)
+    {
         $mimes = array(
             'text/csv',
             'text/plain',
@@ -82,35 +83,35 @@ class Save extends Action
     }
 
     /**
-     * Execute action
-     * @return $this
+     * @return \Magento\Framework\Controller\ResultInterface
      */
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($this->getRequest()->getPost()) {
+            $this->filename = $_FILES['file']['tmp_name'];
 
-            $this->_filename = $_FILES['file']['tmp_name'];
-
-            if (!file_exists($this->_filename)) {
+            if (!file_exists($this->filename)) {
                 $this->messageManager->addErrorMessage('Unable to upload the file!');
-                return $resultRedirect->setPath('*/*/upload');
+                return $resultRedirect->setPath('*/url_rewrite/');
             }
 
-            if ($this->_allowedType($_FILES['file']['type']) == false) {
+            if ($this->allowedType($_FILES['file']['type']) == false) {
                 $this->messageManager->addErrorMessage('Sorry, this file type is not allowed.');
-                return $resultRedirect->setPath('*/*/upload');
+                return $resultRedirect->setPath('*/url_rewrite/');
             }
 
-            $this->_skipHeaders = $this->getRequest()->getParam('skip_headers', false);
+            $this->skipHeaders = $this->getRequest()->getParam('skip_headers', false);
             try {
                 $this->processUrlRewrites();
-                $this->messageManager->addSuccessMessage(sprintf('%s URL rewrites have been imported.', $this->_totalImported));
+                $this->messageManager->addSuccessMessage(
+                    sprintf('%s URL rewrites have been imported.', $this->totalImported)
+                );
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(sprintf('Import Error: %s', $e->getMessage()));
             }
         }
-        return $resultRedirect->setPath('*/*/upload');
+        return $resultRedirect->setPath('*/url_rewrite/');
     }
 
     /**
@@ -118,10 +119,11 @@ class Save extends Action
      */
     public function processUrlRewrites()
     {
-        if (($fp = fopen($this->_filename, 'r'))) {
+        if (($fp = fopen($this->filename, 'r'))) {
             while (($line = fgetcsv($fp))) {
-                $this->_total++;
-                if ($this->_skipHeaders && ($this->_total === 1)) {
+                $this->total++;
+
+                if ($this->skipHeaders && ($this->total === 1)) {
                     continue;
                 }
 
@@ -131,7 +133,7 @@ class Save extends Action
                 $redirect = isset($line[3]) ? $line[3] : '';
                 $description = isset($line[4]) ? $line[4] : '';
 
-                $model = $this->_urlRewriteFactory->create();
+                $model = $this->urlRewriteFactory->create();
                 $model->setEntityType('custom')
                     ->setRequestPath($requestPath)
                     ->setTargetPath($targetPath)
@@ -140,11 +142,10 @@ class Save extends Action
                     ->setDescription($description);
 
                 $model->save();
-                $this->_totalImported++;
+                $this->totalImported++;
             }
-
             fclose($fp);
-            unlink($this->_filename);
+            unlink($this->filename);
         }
     }
 }

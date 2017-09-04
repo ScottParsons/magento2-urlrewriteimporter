@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite;
 /*
  * Turiknox_Urlrewriteimporter
 
@@ -9,6 +8,8 @@ namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite;
  * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite;
+
 use Magento\Backend\Block\Widget\Form\Container;
 use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Registry;
@@ -50,7 +51,7 @@ class Edit extends Container
         $this->buttonList->remove('save');
         $this->buttonList->remove('reset');
 
-        $url = $this->_urlBuilder->getUrl('urlrewriteimporter/urlrewrite/save');
+        $url = $this->_urlBuilder->getUrl('*/*/importAction');
         $this->buttonList->add(
             'upload',
             [
@@ -63,7 +64,8 @@ class Edit extends Container
                             'target' => '#edit_form'
                         ]
                     ]
-                ]
+                ],
+                'onclick' => "setLocation('$url')"
             ],
             -100
         );

@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\Urlrewriteimporter\Controller\Adminhtml\Urlrewrite;
 /*
  * Turiknox_Urlrewriteimporter
 
@@ -9,6 +8,8 @@ namespace Turiknox\Urlrewriteimporter\Controller\Adminhtml\Urlrewrite;
  * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Urlrewriteimporter\Controller\Adminhtml\Url\Rewrite;
+
 use Magento\Backend\App\Action;
 use Magento\Framework\View\Result\PageFactory;
 
@@ -17,19 +18,19 @@ class Upload extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     /**
      * @var PageFactory
      */
-    protected $_resultPageFactory;
+    protected $resultPageFactory;
 
     /**
      * Upload constructor.
+     *
      * @param Action\Context $context
      * @param PageFactory $resultPageFactory
      */
     public function __construct(
         Action\Context $context,
         PageFactory $resultPageFactory
-    )
-    {
-        $this->_resultPageFactory = $resultPageFactory;
+    ) {
+        $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }
 
@@ -39,7 +40,7 @@ class Upload extends \Magento\UrlRewrite\Controller\Adminhtml\Url\Rewrite
     public function execute()
     {
         $this->_view->getPage()->getConfig()->getTitle()->prepend(__('URL Rewrite Importer'));
-        $resultPage = $this->_resultPageFactory->create();
+        $resultPage = $this->resultPageFactory->create();
         return $resultPage;
     }
 }

@@ -30,11 +30,10 @@ class Toolbar
         if ($block instanceof \Magento\UrlRewrite\Block\GridContainer) {
             $buttonList->add('import', [
                 'label' => __('Import'),
-                'onclick' => 'setLocation(\'' .$block->getUrl('urlrewriteimporter/urlrewrite/upload'). '\')',
+                'onclick' => 'setLocation(\'' .$block->getUrl('*/url_rewrite/upload'). '\')',
                 'class' => 'import'
             ]);
         }
-
         return [$block, $buttonList];
     }
 }

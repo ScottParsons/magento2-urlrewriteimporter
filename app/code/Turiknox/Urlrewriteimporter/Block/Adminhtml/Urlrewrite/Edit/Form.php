@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit;
 /*
  * Turiknox_Urlrewriteimporter
 
@@ -9,23 +8,27 @@ namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit;
  * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit;
+
 use Magento\Backend\Block\Widget\Form\Generic;
 
 class Form extends Generic
 {
     /**
      * Prepare form attributes
-     * @return $this
+     * @return \Magento\Backend\Block\Widget\Form
+     * @codingStandardsIgnoreStart
      */
     protected function _prepareForm()
     {
+        // @codingStandardsIgnoreEnd
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             [
                 'data' => [
                     'id'    => 'edit_form',
                     'enctype' => 'multipart/form-data',
-                    'action' => $this->getData('action'),
+                    'action' => $this->getUrl('*/*/importAction'),
                     'method' => 'post'
                 ]
             ]

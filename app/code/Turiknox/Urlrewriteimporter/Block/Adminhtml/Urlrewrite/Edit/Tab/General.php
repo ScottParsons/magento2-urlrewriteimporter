@@ -1,5 +1,4 @@
 <?php
-namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit\Tab;
 /*
  * Turiknox_Urlrewriteimporter
 
@@ -9,6 +8,8 @@ namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit\Tab;
  * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit\Tab;
+
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Backend\Block\Template\Context;
@@ -19,35 +20,29 @@ use Magento\Cms\Model\Wysiwyg\Config;
 class General extends Generic implements TabInterface
 {
     /**
-     * @var \Magento\Cms\Model\Wysiwyg\Config
-     */
-    protected $_wysiwygConfig;
-
-    /**
      * General constructor.
      * @param Context $context
      * @param Registry $registry
      * @param FormFactory $formFactory
-     * @param Config $wysiwygConfig
      * @param array $data
      */
     public function __construct(
         Context $context,
         Registry $registry,
         FormFactory $formFactory,
-        Config $wysiwygConfig,
         array $data = []
     ) {
-        $this->_wysiwygConfig = $wysiwygConfig;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
      * Prepare form fields
      * @return \Magento\Backend\Block\Widget\Form
+     * @codingStandardsIgnoreStart
      */
     protected function _prepareForm()
     {
+        // @codingStandardsIgnoreEnd
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 

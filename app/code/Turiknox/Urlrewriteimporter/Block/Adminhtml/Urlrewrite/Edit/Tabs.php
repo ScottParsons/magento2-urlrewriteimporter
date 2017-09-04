@@ -1,5 +1,6 @@
 <?php
-namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit;
+// @codingStandardsIgnoreFile
+
 /*
  * Turiknox_Urlrewriteimporter
 
@@ -9,6 +10,8 @@ namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit;
  * @license    https://github.com/Turiknox/magento2-urlrewriteimporter/blob/master/LICENSE.md
  * @version    1.0.0
  */
+namespace Turiknox\Urlrewriteimporter\Block\Adminhtml\Urlrewrite\Edit;
+
 use Magento\Backend\Block\Widget\Tabs as WidgetTabs;
 
 class Tabs extends WidgetTabs
@@ -23,7 +26,7 @@ class Tabs extends WidgetTabs
 
     /**
      * Add General tab
-     * @return $this
+     * @return \Magento\Backend\Block\Widget\Tabs
      */
     protected function _beforeToHtml()
     {
@@ -38,7 +41,6 @@ class Tabs extends WidgetTabs
                 'active' => true
             ]
         );
-
         return parent::_beforeToHtml();
     }
 }
